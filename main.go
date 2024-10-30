@@ -2,6 +2,7 @@ package main
 
 import (
 	"app/weather/geo"
+	"app/weather/weather"
 	"flag"
 	"fmt"
 	"io"
@@ -9,14 +10,9 @@ import (
 
 func main() {
 	city := flag.String("city", "", "Город пользователя")
-	// format := flag.Int("format", 1, "Формат вывода погоды")
+	format := flag.Int("format", 1, "Формат вывода погоды")
 
 	flag.Parse()
-	// fmt.Println(*city)
-	// fmt.Println(*format)
-
-	// read := strings.NewReader("Привет!")
-	// block := make([]byte, 4)
 
 	geoData, err := geo.GetMyLocation(*city)
 
@@ -24,14 +20,8 @@ func main() {
 		fmt.Println(err.Error())
 	}
 
+	weather := weather.GetWeather(*geoData, *format)
+
 	fmt.Println(*geoData)
-
-	// for {
-	// 	_, err := read.Read(block)
-	// 	fmt.Printf("%q\n", block)
-	// 	if err == io.EOF {
-	// 		break
-	// 	}
-	// }
-
+	fmt.Println(weather)
 }
